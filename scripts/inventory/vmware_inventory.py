@@ -444,6 +444,12 @@ class VMWareInventory(object):
             inventory['all']['hosts'].append(thisid)
             inventory['_meta']['hostvars'][thisid] = idata.copy()
             inventory['_meta']['hostvars'][thisid]['ansible_uuid'] = thisid
+            folder = '/'
+            parent = instance[0].parent
+            while parent != None:
+                folder = '/' + parent.name + folder
+                parent = parent.parent
+            inventory['_meta']['hostvars'][thisid]['folder'] = folder
 
         # Make a map of the uuid to the alias the user wants
         name_mapping = self.create_template_mapping(
